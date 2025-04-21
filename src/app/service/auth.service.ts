@@ -20,7 +20,7 @@ export class AuthService {
   private usernameSubject = new BehaviorSubject<string | null>(this.getUsernameFromToken());
   username$ = this.usernameSubject.asObservable();
 
-  private readonly BASE_URL = 'http://localhost:8031/api/auth';
+  private readonly BASE_URL = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient, private router: Router) {
     this.checkTokenValidity();

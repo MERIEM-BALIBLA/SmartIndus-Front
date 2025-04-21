@@ -1,15 +1,16 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = JSON.parse(localStorage.getItem('jwt') || '{}').token;
+  // Get the token directly from localStorage - it's stored as a plain string based on your AuthService
+  const token = localStorage.getItem('jwt');
 
-  if(token){
+  if (token) {
     const cloned = req.clone({
-      setHeaders:{
+      setHeaders: {
         Authorization: `Bearer ${token}`
       }
-    })
-    return next(cloned)
+    });
+    return next(cloned);
   }
-  return next(req)
+  return next(req);
 };

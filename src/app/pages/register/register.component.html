@@ -1,0 +1,125 @@
+<!-- register.component.html -->
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      Create a new account
+    </h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      Or
+      <a routerLink="/login" class="font-medium text-blue-600 hover:text-blue-500">
+        sign in to your account
+      </a>
+    </p>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <!-- Error message display -->
+        <div *ngIf="errorMessage" class="bg-red-50 border-l-4 border-red-400 p-4">
+          <div class="flex">
+            <div class="ml-3">
+              <p class="text-sm text-red-700">{{ errorMessage }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- First Name -->
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-gray-700">
+            First Name
+          </label>
+          <div class="mt-1">
+            <input id="firstName" formControlName="firstName" type="text" autocomplete="given-name" required
+                   class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Enter your first name">
+          </div>
+          <div *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.errors?.['required']" class="text-red-500 text-xs mt-1">
+            First name is required
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-gray-700">
+            Last Name
+          </label>
+          <div class="mt-1">
+            <input id="lastName" formControlName="lastName" type="text" autocomplete="family-name" required
+                   class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Enter your last name">
+          </div>
+          <div *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.errors?.['required']" class="text-red-500 text-xs mt-1">
+            Last name is required
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Email address
+          </label>
+          <div class="mt-1">
+            <input id="email" formControlName="email" type="email" autocomplete="email" required
+                   class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Enter your email address">
+          </div>
+          <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']" class="text-red-500 text-xs mt-1">
+            Email is required
+          </div>
+          <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['email']" class="text-red-500 text-xs mt-1">
+            Please enter a valid email address
+          </div>
+        </div>
+
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <div class="mt-1">
+            <input id="password" formControlName="password" type="password" autocomplete="new-password" required
+                   class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Create a password">
+          </div>
+          <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']" class="text-red-500 text-xs mt-1">
+            Password is required
+          </div>
+          <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']" class="text-red-500 text-xs mt-1">
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
+            Confirm password
+          </label>
+          <div class="mt-1">
+            <input id="confirmPassword" formControlName="confirmPassword" type="password" required
+                   class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Confirm your password">
+          </div>
+          <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors?.['required']" class="text-red-500 text-xs mt-1">
+            Please confirm your password
+          </div>
+          <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" class="text-red-500 text-xs mt-1">
+            Passwords do not match
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button type="submit" [disabled]="isSubmitting"
+                  class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <span *ngIf="isSubmitting" class="absolute left-0 inset-y-0 flex items-center pl-3">
+              <!-- Loading spinner icon if needed -->
+            </span>
+            {{ isSubmitting ? 'Registering...' : 'Register' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<!-- sidebar.component.html -->
+<aside class="bg-gray-800 text-white w-64 flex flex-col h-full">
+  <!-- Logo -->
+  <div class="px-6 py-4">
+    <h1 class="text-2xl font-bold">Smart Indus</h1>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 px-4 py-4">
+    <ul class="space-y-2">
+      <!-- Élément de menu Dashboard -->
+
+      <!-- Élément de menu Profil -->
+      <li>
+        <a href="/admin/statistic" routerLinkActive="bg-gray-700"
+           class="flex items-center px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+
+          statistiques
+        </a>
+      </li>
+      <li>
+        <a href="/admin/users" routerLinkActive="bg-gray-700"
+           class="flex items-center px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          User
+        </a>
+      </li>
+
+      <!-- Ajoutez d'autres éléments de menu selon vos besoins -->
+    </ul>
+  </nav>
+
+  <!-- Footer -->
+  <div class="px-4 py-4 border-t border-gray-700">
+    <button (click)="logout()" class="flex items-center px-4 py-2 rounded-md hover:bg-gray-700 transition-colors w-full">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      </svg>
+      Déconnexion
+    </button>
+  </div>
+</aside>
+
+<!--<div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">-->
+
+<!--  &lt;!&ndash; Sidebar &ndash;&gt;-->
+<!--  <div-->
+<!--    class="fixed inset-y-0 z-10 flex w-80 transform transition-transform duration-300"-->
+<!--    [class.-translate-x-full]="!isSidebarOpen"-->
+<!--    [class.translate-x-0]="isSidebarOpen"-->
+<!--  >-->
+<!--    &lt;!&ndash; Shape SVG &ndash;&gt;-->
+<!--    <svg class="absolute inset-0 w-full h-full text-white" style="filter: drop-shadow(10px 0 10px #00000030)" preserveAspectRatio="none" viewBox="0 0 309 800" fill="currentColor">-->
+<!--      <path d="M268.487 0H0V800H247.32C207.957 725 207.975 492.294 268.487 367.647C329 243 314.906 53.4314 268.487 0Z"/>-->
+<!--    </svg>-->
+
+<!--    &lt;!&ndash; Sidebar Content &ndash;&gt;-->
+<!--    <div class="z-10 flex flex-col flex-1">-->
+<!--      <div class="flex items-center justify-between flex-shrink-0 w-64 p-4">-->
+<!--        &lt;!&ndash; Logo &ndash;&gt;-->
+<!--        <a href="#">-->
+<!--          <span class="sr-only">K-UI</span>-->
+<!--          <svg class="w-16 h-auto text-blue-600" viewBox="0 0 96 53" fill="currentColor">-->
+<!--            &lt;!&ndash; same path as before &ndash;&gt;-->
+<!--          </svg>-->
+<!--        </a>-->
+<!--        &lt;!&ndash; Close Button &ndash;&gt;-->
+<!--        <button (click)="closeSidebar()" class="p-1 rounded-lg focus:outline-none focus:ring">-->
+<!--          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>-->
+<!--          </svg>-->
+<!--        </button>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Navigation &ndash;&gt;-->
+<!--      <nav class="flex flex-col flex-1 w-64 p-4 mt-4">-->
+<!--        <a href="#" class="flex items-center space-x-2">-->
+<!--          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m7-7l7 7M5 10v10"/>-->
+<!--          </svg>-->
+<!--          <span>Home</span>-->
+<!--        </a>-->
+<!--      </nav>-->
+
+<!--      &lt;!&ndash; Logout &ndash;&gt;-->
+<!--      <div class="flex-shrink-0 p-4">-->
+<!--        <a  routerLink="/">-->
+<!--          <button class="flex items-center space-x-2">-->
+<!--            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7"/>-->
+<!--            </svg>-->
+<!--            <span>Logout</span>-->
+<!--          </button>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Main content &ndash;&gt;-->
+<!--  <main class="flex flex-col items-center justify-center flex-1">-->
+<!--    <button (click)="toggleSidebar()" class="fixed p-2 text-white bg-black rounded-lg top-5 left-5">-->
+<!--      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>-->
+<!--      </svg>-->
+<!--    </button>-->
+
+<!--    <a href="https://github.com/kamona-ui" target="_blank">-->
+<!--      <svg class="w-20 h-auto text-blue-600" viewBox="0 0 96 53" fill="currentColor">-->
+<!--        &lt;!&ndash; same path &ndash;&gt;-->
+<!--      </svg>-->
+<!--    </a>-->
+<!--  </main>-->
+<!--</div>-->
