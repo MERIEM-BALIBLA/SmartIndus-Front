@@ -1,15 +1,14 @@
-// register.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HttpClientModule],
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -36,6 +35,7 @@ export class RegisterComponent implements OnInit {
       validators: this.passwordMatchValidator
     });
   }
+
 
   // Custom validator to check if password and confirmPassword match
   passwordMatchValidator(formGroup: FormGroup) {
@@ -69,7 +69,14 @@ export class RegisterComponent implements OnInit {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.errorMessage = error.message || 'Registration failed. Please try again.';
+        // Vérifiez si error est une Error ou un objet
+        if (error instanceof Error) {
+          this.errorMessage = error.message;
+        } else if (typeof error === 'object' && error && 'error' in error && error.error && 'message' in error.error) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'Registration failed. Please try again.';
+        }
         console.error('Registration error:', error);
       }
     });

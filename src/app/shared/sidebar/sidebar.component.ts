@@ -15,19 +15,12 @@ export class SidebarComponent {
   constructor(private router: Router) {}
   isSidebarOpen = false;
 
-  logout() {
-    // Supprimer le token d'authentification
-    localStorage.removeItem('token');
-    // Rediriger vers la page de login
-    this.router.navigate(['/login']);
-  }
-
   @ViewChild('loadingRef') loadingRef!: ElementRef;
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.loadingRef.nativeElement.classList.add('hidden');
-    }, 1000); // Simule le chargement
+    // setTimeout(() => {
+    //   this.loadingRef.nativeElement.classList.add('hidden');
+    // }, 1000); // Simule le chargement
   }
 
   toggleSidebar(): void {
@@ -36,6 +29,11 @@ export class SidebarComponent {
 
   closeSidebar(): void {
     this.isSidebarOpen = false;
+  }
+
+  logout(): void {
+    localStorage.removeItem('jwt'); // supprime le token
+    this.router.navigate(['/login']); // redirige vers la page de login
   }
 
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { LoginRequest } from '../../core/interface/auth/login-request.interface';
-import { HttpClientModule } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import {Router} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {LoginRequest} from '../../core/interface/auth/login-request.interface';
+import {HttpClientModule} from '@angular/common/http';
 import {AuthService} from '../../service/auth.service';
 
 @Component({
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     // Initialize the login form
@@ -55,7 +56,11 @@ export class LoginComponent implements OnInit {
         if (userRole && userRole.includes('ROLE_ADMIN')) {
           console.log("inside of the condition ifff :", userRole);
           this.router.navigate(['/admin/dashboard']);
-        } else {
+        }
+        else if(userRole && userRole.includes("ROLE_USER")){
+            this.router.navigate(['/home']);
+        }
+        else {
           console.log("inside of the condition elseeee :", userRole);
           this.router.navigate(['/login']);
         }
@@ -65,7 +70,7 @@ export class LoginComponent implements OnInit {
         this.isSubmitting = false;
         this.errorMessage = error.message || 'Login failed. Please try again.';
       }
-    });  }
-
+    });
+  }
 
 }

@@ -31,22 +31,37 @@ export class AuthService {
     return !!token && !this.isTokenExpired(token);
   }
 
+  // private isTokenExpired(token: string): boolean {
+  //   const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+  //   return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+  // }
   private isTokenExpired(token: string): boolean {
-    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
-    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp;
+      return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+    } catch (error) {
+      console.error('Error checking token expiration:', error);
+      return true; // Considérer le token comme expiré en cas d'erreur
+    }
   }
 
   private checkTokenValidity() {
     if (this.hasValidToken()) {
       this.isLoggedInSubject.next(true);
     } else {
-      this.logout();
+      this.isLoggedInSubject.next(false);
     }
   }
 
+  // register(data: SignUpRequest): Observable<void> {
+  //   return this.http.post<void>(`${this.BASE_URL}/register`, data).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
   register(data: SignUpRequest): Observable<void> {
     return this.http.post<void>(`${this.BASE_URL}/register`, data).pipe(
-      catchError(this.handleError)
+      catchError((error) => this.handleError(error))
     );
   }
 
@@ -78,18 +93,23 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = error.error.message || 'Server error';
-    }
-    return throwError(() => ({
-      error: {
-        message: errorMessage,
-      },
-    }));
-  }
 
+    if (error.error instanceof ErrorEvent) {
+      // Erreur côté client
+      errorMessage = error.error.message;
+    } else if (error.error && typeof error.error === 'object' && error.error.message) {
+      // Erreur côté serveur avec message JSON
+      errorMessage = error.error.message;
+    } else if (typeof error.error === 'string') {
+      // Erreur côté serveur avec message texte
+      errorMessage = error.error;
+    } else {
+      // Fallback sur le statut HTTP
+      errorMessage = `Server error: ${error.status}`;
+    }
+
+    return throwError(() => new Error(errorMessage));
+  }
   // ---------------------- extract Role
   getUserRole(): string | null {
     return this.userRoleSubject.value;

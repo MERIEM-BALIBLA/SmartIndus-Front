@@ -28,6 +28,47 @@
         </a>
       </li>
 
+      <li>
+        <a href="/admin/equipe" routerLinkActive="bg-gray-700"
+           class="flex items-center px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m4-4a4 4 0 110-8 4 4 0 010 8zm6 4a4 4 0 00-3-3.87" />
+          </svg>
+
+          Equipe
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/equipement" routerLinkActive="bg-gray-700"
+           class="flex items-center px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3a6.75 6.75 0 106.75 6.75m0 0v.75m0-.75h.75m-7.5 9a4.5 4.5 0 00-4.5 4.5H18a4.5 4.5 0 00-4.5-4.5h-3z" />
+          </svg>
+          Equipement
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/intervention" routerLinkActive="bg-gray-700"
+           class="flex items-center px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036 2.036a9 9 0 11-4.5-4.5m6.036 6.036L21 21" />
+          </svg>
+          Intervention
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/users" routerLinkActive="bg-gray-700"
+           class="flex items-center px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4m1-6H8a2 2 0 00-2 2v14a2 2 0 002 2h8a2 2 0 002-2V7l-4-4z" />
+          </svg>
+          Tache
+        </a>
+      </li>
       <!-- Ajoutez d'autres éléments de menu selon vos besoins -->
     </ul>
   </nav>
@@ -42,74 +83,3 @@
     </button>
   </div>
 </aside>
-
-<!--<div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">-->
-
-<!--  &lt;!&ndash; Sidebar &ndash;&gt;-->
-<!--  <div-->
-<!--    class="fixed inset-y-0 z-10 flex w-80 transform transition-transform duration-300"-->
-<!--    [class.-translate-x-full]="!isSidebarOpen"-->
-<!--    [class.translate-x-0]="isSidebarOpen"-->
-<!--  >-->
-<!--    &lt;!&ndash; Shape SVG &ndash;&gt;-->
-<!--    <svg class="absolute inset-0 w-full h-full text-white" style="filter: drop-shadow(10px 0 10px #00000030)" preserveAspectRatio="none" viewBox="0 0 309 800" fill="currentColor">-->
-<!--      <path d="M268.487 0H0V800H247.32C207.957 725 207.975 492.294 268.487 367.647C329 243 314.906 53.4314 268.487 0Z"/>-->
-<!--    </svg>-->
-
-<!--    &lt;!&ndash; Sidebar Content &ndash;&gt;-->
-<!--    <div class="z-10 flex flex-col flex-1">-->
-<!--      <div class="flex items-center justify-between flex-shrink-0 w-64 p-4">-->
-<!--        &lt;!&ndash; Logo &ndash;&gt;-->
-<!--        <a href="#">-->
-<!--          <span class="sr-only">K-UI</span>-->
-<!--          <svg class="w-16 h-auto text-blue-600" viewBox="0 0 96 53" fill="currentColor">-->
-<!--            &lt;!&ndash; same path as before &ndash;&gt;-->
-<!--          </svg>-->
-<!--        </a>-->
-<!--        &lt;!&ndash; Close Button &ndash;&gt;-->
-<!--        <button (click)="closeSidebar()" class="p-1 rounded-lg focus:outline-none focus:ring">-->
-<!--          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>-->
-<!--          </svg>-->
-<!--        </button>-->
-<!--      </div>-->
-
-<!--      &lt;!&ndash; Navigation &ndash;&gt;-->
-<!--      <nav class="flex flex-col flex-1 w-64 p-4 mt-4">-->
-<!--        <a href="#" class="flex items-center space-x-2">-->
-<!--          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m7-7l7 7M5 10v10"/>-->
-<!--          </svg>-->
-<!--          <span>Home</span>-->
-<!--        </a>-->
-<!--      </nav>-->
-
-<!--      &lt;!&ndash; Logout &ndash;&gt;-->
-<!--      <div class="flex-shrink-0 p-4">-->
-<!--        <a  routerLink="/">-->
-<!--          <button class="flex items-center space-x-2">-->
-<!--            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7"/>-->
-<!--            </svg>-->
-<!--            <span>Logout</span>-->
-<!--          </button>-->
-<!--        </a>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  &lt;!&ndash; Main content &ndash;&gt;-->
-<!--  <main class="flex flex-col items-center justify-center flex-1">-->
-<!--    <button (click)="toggleSidebar()" class="fixed p-2 text-white bg-black rounded-lg top-5 left-5">-->
-<!--      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>-->
-<!--      </svg>-->
-<!--    </button>-->
-
-<!--    <a href="https://github.com/kamona-ui" target="_blank">-->
-<!--      <svg class="w-20 h-auto text-blue-600" viewBox="0 0 96 53" fill="currentColor">-->
-<!--        &lt;!&ndash; same path &ndash;&gt;-->
-<!--      </svg>-->
-<!--    </a>-->
-<!--  </main>-->
-<!--</div>-->

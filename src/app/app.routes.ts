@@ -8,11 +8,24 @@ import {StatisticComponent} from './pages/dashboard/admin/statistic/statistic.co
 import {UserPageComponent} from './pages/dashboard/admin/user/user-page/user-page.component';
 import {roleGuardGuard} from './core/guard/role/role-guard.guard';
 import {FormPageComponent} from './pages/dashboard/admin/user/form-page/form-page.component';
+import {HomeComponent} from './pages/home/home.component';
+import {EquipePageComponent} from './pages/dashboard/equipe/equipe-page/equipe-page.component';
+import {EquipeFormComponent} from './pages/dashboard/equipe/equipe-form/equipe-form.component';
+import {EquipementPageComponent} from './pages/dashboard/equipement/equipement-page/equipement-page.component';
+import {InterventionPageComponent} from './pages/dashboard/intervention/intervention-page/intervention-page.component';
 
 export const routes: Routes = [
   {
     path: "",
     component: LoginComponent,
+  },
+  {
+    path: "login",
+    component: LoginComponent
+  },
+  {
+    path: "register",
+    component: RegisterComponent
   },
   {
     path: 'admin',
@@ -42,22 +55,25 @@ export const routes: Routes = [
             component: FormPageComponent,
           }
         ]
-
+      },
+      {
+        path: "equipe",
+        component: EquipePageComponent,
+      },
+      {
+        path: "equipe/create",
+        component: EquipeFormComponent,
+      },
+      {
+        path: "equipement",
+        component: EquipementPageComponent,
+      },
+      {
+        path: "intervention",
+        component: InterventionPageComponent
       }
     ]
   },
-  {
-    path: 'authentication',
-    component: LoginComponent,
-    children: [
-      {
-        path: "login",
-        component: LoginComponent
-      },
-      {
-        path: "register",
-        component: RegisterComponent
-      },]
-  },
+
   {path: '**', redirectTo: ''}
 ];

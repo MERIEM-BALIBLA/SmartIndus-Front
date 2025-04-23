@@ -2,43 +2,71 @@
   <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
-      <th scope="col" class="px-6 py-3">
-        User name
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Color
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Category
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Price
-      </th>
-      <th scope="col" class="px-6 py-3">
-        <span class="sr-only">Edit</span>
-      </th>
+      <th scope="col" class="px-6 py-3">Role</th>
+      <th scope="col" class="px-6 py-3">First Name</th>
+      <th scope="col" class="px-6 py-3">Last Name</th>
+      <th scope="col" class="px-6 py-3">Email</th>
+      <th scope="col" class="px-6 py-3">Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let user of users"
         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         {{ user.role }}
-      </th>
-      <td class="px-6 py-4">
-        {{ user.firstName }}
       </td>
-      <td class="px-6 py-4">
-        {{ user.lastName }}
+      <td class="px-6 py-4">{{ user.firstName }}</td>
+      <td class="px-6 py-4">{{ user.lastName }}</td>
+      <td class="px-6 py-4">{{ user.email }}</td>
+      <td class="px-6 py-4 text-right flex space-x-3">
+        <button (click)="openEditModal(user.id, user.role)"
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+          Edit
+        </button>
+        <button (click)="onDelete(user.id)"
+                class="font-medium text-red-600 dark:text-red-500 hover:underline">
+          Delete
+        </button>
       </td>
-      <td class="px-6 py-4">
-        {{ user.email }}
-      </td>
-      <td class="px-6 py-4 text-right flex justify-between">
-        <a href="/admin/users/update" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+    </tr>
+
+    <!-- Empty state message -->
+    <tr *ngIf="users.length === 0">
+      <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+        No users available
       </td>
     </tr>
     </tbody>
   </table>
+
+  <!-- Pagination component -->
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    [totalElements]="totalElements"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
 </div>
+
+<!-- Edit Role Modal -->
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Update User Role</h3>
+    <div class="py-4">
+      <select id="role" class="select select-bordered w-full" [(ngModel)]="selectedUserRole" name="role">
+<!--        <option value="USER">User</option>-->
+        <option value="ADMIN">Admin</option>
+        <option value="TECHNICIEN_DE_MAINTENANCE">Technicien de maintenance</option>
+        <option value="OPERATEUR_DE_PRODUCTION">Operateur de production</option>
+        <option value="RESPONSABLE_DE_MAINTENANCE">Responsable de maintenance</option>
+      </select>
+
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <button class="btn mr-2">Cancel</button>
+        <button class="btn btn-primary" (click)="updateUserRole()">Save</button>
+      </form>
+    </div>
+  </div>
+</dialog>

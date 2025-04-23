@@ -1,1 +1,212 @@
-<p>equipe-page works!</p>
+<!--<button>Creer une nouvelle equipe</button>-->
+<!--<div class="relative overflow-x-auto shadow-md sm:rounded-lg" *ngIf="equipesPage && !loading">-->
+<!--  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">-->
+<!--    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">-->
+<!--    <tr>-->
+<!--      <th scope="col" class="px-6 py-3">Responsable</th>-->
+<!--      <th scope="col" class="px-6 py-3">Operateur</th>-->
+<!--      <th scope="col" class="px-6 py-3">Techniciens</th>-->
+<!--      <th scope="col" class="px-6 py-3">Actions</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr *ngFor="let equipe of equipesPage.content"-->
+<!--        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">-->
+<!--      <td class="px-6 py-4">{{ equipe.responsable?.firstName }} {{ equipe.responsable?.lastName }}</td>-->
+<!--      <td class="px-6 py-4">{{ equipe.operateur.firstName }} {{ equipe.operateur.lastName }}</td>-->
+<!--      <td class="px-6 py-4">-->
+<!--        <ul>-->
+<!--                    <li *ngFor="let tech of equipe.techniciens">-->
+<!--                      {{ tech.firstName }} {{ tech.lastName }}-->
+<!--                    </li>-->
+<!--                  </ul>-->
+<!--      </td>-->
+<!--      <td class="px-6 py-4 text-right flex space-x-3">-->
+
+<!--        <button-->
+<!--                class="font-medium text-red-600 dark:text-red-500 hover:underline">-->
+<!--          Delete-->
+<!--        </button>-->
+<!--      </td>-->
+<!--    </tr>-->
+
+<!--    &lt;!&ndash; Empty state message &ndash;&gt;-->
+<!--    <tr *ngIf="equipes.length === 0">-->
+<!--      <td colspan="5" class="px-6 py-8 text-center text-gray-500">-->
+<!--        No users available-->
+<!--      </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--  </table>-->
+
+<!--  &lt;!&ndash; Pagination component &ndash;&gt;-->
+<!--  <app-pagination-->
+<!--    [currentPage]="currentPage"-->
+<!--    [totalPages]="totalPages"-->
+<!--    [totalElements]="totalElements"-->
+<!--    (pageChange)="onPageChange($event)">-->
+<!--  </app-pagination>-->
+<!--</div>-->
+
+<div class="container mx-auto px-4 py-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Gestion des Équipes</h1>
+    <button
+      (click)="toggleForm()"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      {{ showForm ? 'Annuler' : 'Créer une nouvelle équipe' }}
+    </button>
+  </div>
+
+  <!-- Form for creating/editing team -->
+  <div *ngIf="showForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <h2 class="text-xl font-semibold mb-4">{{ isEditing ? 'Modifier l\'équipe' : 'Créer une nouvelle équipe' }}</h2>
+    <form [formGroup]="equipeForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="responsableId">
+            Responsable
+          </label>
+          <select
+            formControlName="responsableId"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="responsableId">
+            <option value="">Sélectionner un responsable</option>
+            <option *ngFor="let resp of responsables" [value]="resp.id">
+              {{ resp.firstName }} {{ resp.lastName }}
+            </option>
+          </select>
+          <p *ngIf="equipeForm.get('responsableId')?.invalid && equipeForm.get('responsableId')?.touched" class="text-red-500 text-xs italic">
+            Le responsable est requis
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="operateurId">
+            Opérateur
+          </label>
+          <select
+            formControlName="operateurId"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="operateurId">
+            <option value="">Sélectionner un opérateur</option>
+            <option *ngFor="let op of operateurs" [value]="op.id">
+              {{ op.firstName }} {{ op.lastName }}
+            </option>
+          </select>
+          <p *ngIf="equipeForm.get('operateurId')?.invalid && equipeForm.get('operateurId')?.touched" class="text-red-500 text-xs italic">
+            L'opérateur est requis
+          </p>
+        </div>
+
+        <div class="mb-4 col-span-2">
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            Techniciens
+          </label>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2">
+            <div *ngFor="let tech of techniciens" class="flex items-center">
+              <input
+                type="checkbox"
+                [id]="'tech-' + tech.id"
+                [checked]="isTechnicienSelected(tech.id)"
+                (change)="onTechnicienChange($event, tech.id)"
+                class="mr-2">
+              <label [for]="'tech-' + tech.id">
+                {{ tech.firstName }} {{ tech.lastName }}
+              </label>
+            </div>
+          </div>
+
+          <p *ngIf="equipeForm.get('technicienIds')?.invalid && equipeForm.get('technicienIds')?.touched" class="text-red-500 text-xs italic">
+            Au moins un technicien est requis
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end mt-4">
+        <button
+          type="button"
+          (click)="resetForm()"
+          class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">
+          Réinitialiser
+        </button>
+        <button
+          type="submit"
+          [disabled]="equipeForm.invalid"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          [ngClass]="{'opacity-50 cursor-not-allowed': equipeForm.invalid}">
+          {{ isEditing ? 'Mettre à jour' : 'Créer' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="flex justify-center items-center py-8">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+    {{ error }}
+  </div>
+
+  <!-- Team list table -->
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg" *ngIf="equipesPage && !loading">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">Responsable</th>
+        <th scope="col" class="px-6 py-3">Opérateur</th>
+        <th scope="col" class="px-6 py-3">Techniciens</th>
+        <th scope="col" class="px-6 py-3">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let equipe of equipesPage.content"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <td class="px-6 py-4">
+          <span *ngIf="equipe.responsable">{{ equipe.responsable.firstName }} {{ equipe.responsable.lastName }}</span>
+          <span *ngIf="!equipe.responsable" class="text-gray-400 italic">Non assigné</span>
+        </td>
+        <td class="px-6 py-4">{{ equipe.operateur.firstName }} {{ equipe.operateur.lastName }}</td>
+        <td class="px-6 py-4">
+          <ul class="list-disc pl-5">
+            <li *ngFor="let tech of equipe.techniciens">
+              {{ tech.firstName }} {{ tech.lastName }}
+            </li>
+          </ul>
+        </td>
+        <td class="px-6 py-4 flex space-x-3">
+          <button
+            (click)="onEdit(equipe)"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            Modifier
+          </button>
+          <button
+            (click)="onDelete(equipe.id)"
+            class="font-medium text-red-600 dark:text-red-500 hover:underline">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+
+      <!-- Empty state message -->
+      <tr *ngIf="equipes.length === 0">
+        <td colspan="4" class="px-6 py-8 text-center text-gray-500">
+          Aucune équipe disponible
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination component -->
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      [totalElements]="totalElements"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+</div>

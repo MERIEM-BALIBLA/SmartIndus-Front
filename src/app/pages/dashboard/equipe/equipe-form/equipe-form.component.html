@@ -1,0 +1,132 @@
+<!--<form [formGroup]="equipeForm" (ngSubmit)="onSubmit()" class="max-w-3xl mx-auto mt-6">-->
+<!--  <div class="bg-white shadow-lg rounded-2xl p-6 space-y-6">-->
+<!--    <h2 class="text-2xl font-bold text-gray-800">Créer une nouvelle équipe</h2>-->
+
+<!--    &lt;!&ndash; Responsable &ndash;&gt;-->
+<!--    <div>-->
+<!--      <label class="block text-sm font-medium text-gray-700 mb-1">Responsable</label>-->
+<!--      <select-->
+<!--        class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none p-2"-->
+<!--        formControlName="responsableId">-->
+<!--        <option value="">Sélectionner un responsable</option>-->
+<!--        <option *ngFor="let responsable of responsables" [value]="responsable.id">-->
+<!--          {{ responsable.firstName }} {{ responsable.lastName }}-->
+<!--        </option>-->
+<!--      </select>-->
+<!--      <div class="text-red-500 text-sm mt-1" *ngIf="equipeForm.get('responsableId')?.invalid && equipeForm.get('responsableId')?.touched">-->
+<!--        Ce champ est requis-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Opérateur &ndash;&gt;-->
+<!--    <div>-->
+<!--      <label class="block text-sm font-medium text-gray-700 mb-1">Opérateur</label>-->
+<!--      <select-->
+<!--        class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none p-2"-->
+<!--        formControlName="operateurId">-->
+<!--        <option value="">Sélectionner un opérateur</option>-->
+<!--        <option *ngFor="let operateur of operateurs" [value]="operateur.id">-->
+<!--          {{ operateur.firstName }} {{ operateur.lastName }}-->
+<!--        </option>-->
+<!--      </select>-->
+<!--      <div class="text-red-500 text-sm mt-1" *ngIf="equipeForm.get('operateurId')?.invalid && equipeForm.get('operateurId')?.touched">-->
+<!--        Ce champ est requis-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Techniciens &ndash;&gt;-->
+<!--    <div>-->
+<!--      <label class="block text-sm font-medium text-gray-700 mb-1">Techniciens</label>-->
+<!--      <select-->
+<!--        multiple-->
+<!--        class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none p-2 h-32"-->
+<!--        formControlName="technicienIds">-->
+<!--        <option *ngFor="let technicien of techniciens" [value]="technicien.id">-->
+<!--          {{ technicien.lastName }}-->
+<!--        </option>-->
+<!--      </select>-->
+<!--      <div class="text-red-500 text-sm mt-1" *ngIf="equipeForm.get('technicienIds')?.invalid && equipeForm.get('technicienIds')?.touched">-->
+<!--        Sélectionnez au moins un technicien-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Message d'erreur général &ndash;&gt;-->
+<!--    <div *ngIf="error" class="text-red-600 bg-red-100 p-2 rounded-lg border border-red-200">-->
+<!--      {{ error }}-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Bouton &ndash;&gt;-->
+<!--    <div class="text-end">-->
+<!--      <button-->
+<!--        type="submit"-->
+<!--        class="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"-->
+<!--        [disabled]="equipeForm.invalid || loading">-->
+<!--        <span *ngIf="loading" class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>-->
+<!--        {{ loading ? 'Création...' : 'Créer l\'équipe' }}-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</form>-->
+<form [formGroup]="equipeForm" (ngSubmit)="onSubmit()" class="max-w-3xl mx-auto mt-6">
+  <div class="bg-white shadow-lg rounded-2xl p-6 space-y-6">
+    <h2 class="text-2xl font-bold text-gray-800">
+      {{ editing ? 'Modifier l\'équipe' : 'Créer une nouvelle équipe' }}
+    </h2>
+
+    <!-- Responsable -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Responsable</label>
+      <select
+        class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none p-2"
+        formControlName="responsableId">
+        <option value="">Sélectionner un responsable</option>
+        <option *ngFor="let responsable of responsables" [value]="responsable.id">
+          {{ responsable.firstName }} {{ responsable.lastName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Opérateur -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Opérateur</label>
+      <select
+        class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none p-2"
+        formControlName="operateurId">
+        <option value="">Sélectionner un opérateur</option>
+        <option *ngFor="let operateur of operateurs" [value]="operateur.id">
+          {{ operateur.firstName }} {{ operateur.lastName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Techniciens -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Techniciens</label>
+      <select
+        multiple
+        class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none p-2 h-32"
+        formControlName="technicienIds">
+        <option *ngFor="let technicien of techniciens" [value]="technicien.id">
+          {{ technicien.lastName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Message erreur -->
+    <div *ngIf="error" class="text-red-600 bg-red-100 p-2 rounded-lg border border-red-200">
+      {{ error }}
+    </div>
+
+    <!-- Bouton -->
+    <div class="text-end">
+      <button
+        type="submit"
+        class="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
+        [disabled]="equipeForm.invalid || loading">
+        <span *ngIf="loading" class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+        {{ editing ? 'Mettre à jour' : 'Créer l\'équipe' }}
+      </button>
+    </div>
+  </div>
+</form>
+

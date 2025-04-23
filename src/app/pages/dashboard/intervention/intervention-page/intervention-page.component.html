@@ -1,0 +1,164 @@
+
+<div class="container mx-auto px-4 py-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Gestion des Équipements</h1>
+    <button
+      (click)="toggleForm()"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      {{ showForm ? 'Annuler' : 'Ajouter un équipement' }}
+    </button>
+  </div>
+
+  <!-- Form for creating/editing equipment -->
+  <div *ngIf="showForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <h2 class="text-xl font-semibold mb-4">{{ isEditing ? 'Modifier l\'équipement' : 'Ajouter un nouvel équipement' }}</h2>
+    <form [formGroup]="interventionForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="nom">
+            Type d'intervention
+          </label>
+          <select
+            formControlName="type"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="type">
+            <option value="CORRECTIVE">Corrective</option>
+            <option value="PREVENTIVE">Preventive</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
+            Date de debut
+          </label>
+          <input
+            formControlName="dateDebut"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="dateDebut"
+            type="date">
+          <p *ngIf="interventionForm.get('dateDebut')?.invalid && interventionForm.get('dateDebut')?.touched" class="text-red-500 text-xs italic">
+            La date de debut est requis
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="dateFin">
+            Date de fin
+          </label>
+          <input
+            formControlName="dateFin"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="dateFin"
+            type="date">
+          <p *ngIf="interventionForm.get('dateFin')?.invalid && interventionForm.get('dateFin')?.touched" class="text-red-500 text-xs italic">
+            La date de debut est requis
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="equipementId">
+            équipement
+          </label>
+          <input
+            formControlName="equipementId"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="equipementId"
+            type="text">
+          <p *ngIf="interventionForm.get('nom')?.invalid && interventionForm.get('nom')?.touched" class="text-red-500 text-xs italic">
+            Le nom doit contenir entre 3 et 100 caractères
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="statut">
+            Statut
+          </label>
+          <select
+            formControlName="status"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="statut">
+            <option value="URGENT">Urgent</option>
+            <option value="EN_COURS">En cours</option>
+            <option value="TERMINEE">Termine</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end mt-4">
+        <button
+          type="button"
+          (click)="resetForm()"
+          class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">
+          Réinitialiser
+        </button>
+        <button
+          type="submit"
+          [disabled]="interventionForm.invalid"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          [ngClass]="{'opacity-50 cursor-not-allowed': interventionForm.invalid}">
+          {{ isEditing ? 'Mettre à jour' : 'Créer' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Equipment list table -->
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">Nom</th>
+        <th scope="col" class="px-6 py-3">Type</th>
+        <th scope="col" class="px-6 py-3">État</th>
+        <th scope="col" class="px-6 py-3">Date d'installation</th>
+        <th scope="col" class="px-6 py-3">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let equipement of interventions"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          {{ equipement.type }}
+        </td>
+        <td class="px-6 py-4">{{ equipement.type }}</td>
+        <td class="px-6 py-4">
+            <span [ngClass]="{
+              'bg-green-100 text-green-800': equipement.status === 'TERMINEE',
+              'bg-red-100 text-red-800': equipement.status === 'EN_COURS',
+              'bg-gray-100 text-gray-800': equipement.status === 'URGENT'
+            }" class="px-2 py-1 rounded text-xs font-medium">
+              {{ equipement.status }}
+            </span>
+        </td>
+        <td class="px-6 py-4">{{ equipement.dateDebut }}</td>
+        <td class="px-6 py-4 flex space-x-3">
+          <button
+            class="font-medium text-red-600 dark:text-red-500 hover:underline">
+            Supprimer
+          </button>
+          <button
+            (click)="onEdit(equipement)"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            Modifier
+          </button>
+        </td>
+      </tr>
+
+      <!-- Empty state message -->
+      <tr *ngIf="interventions.length === 0">
+        <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+          Aucun équipement disponible
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination component -->
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      [totalElements]="totalElements"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+</div>

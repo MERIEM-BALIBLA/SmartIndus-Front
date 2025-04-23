@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import {User} from '../core/interface/user.interface';
@@ -43,6 +43,15 @@ export class UserService {
 
   updateUser(data: User, id: string): Observable<User> {
     return this.http.put<User>(`${this.BASE_URL}/${id}`, data);
+  }
+
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.BASE_URL}/${id}`);
+  }
+
+  getUsersByRole(role: string): Observable<User[]> {
+    const params = new HttpParams().set('role', role);
+    return this.http.get<User[]>(`${this.BASE_URL}/by-role`, { params });
   }
 
 }
